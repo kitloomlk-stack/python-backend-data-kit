@@ -1,0 +1,17 @@
+---
+trigger: glob
+globs: "tests/**/*.py,**/test_*.py,**/*_test.py"
+description: "Applies when writing or editing tests."
+---
+
+# pytest conventions
+
+- Name tests for the behaviour they check, for example `test_create_user_rejects_duplicate_email`.
+- One behaviour per test; arrange, act, assert, in that order.
+- Use fixtures for shared setup and keep them in the nearest `conftest.py`. Use `tmp_path` for files and a throwaway database or transaction rollback for database tests.
+- Use `pytest.mark.parametrize` for input tables instead of loops inside a test.
+- Mock only external boundaries: HTTP calls, clocks, queues, third-party SDKs. Do not mock the code under test.
+- Cover failure paths: invalid input, missing records, permission denied, timeouts.
+- Tests must be deterministic: seed randomness, freeze or inject time, avoid sleeps and ordering dependence.
+- Never skip, delete or loosen a failing test to get a green run. Fix the cause or tell the user why the test is wrong.
+- Keep slow or integration tests behind a marker so the fast suite stays fast.

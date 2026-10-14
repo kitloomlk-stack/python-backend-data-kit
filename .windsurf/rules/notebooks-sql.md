@@ -1,0 +1,24 @@
+---
+trigger: glob
+globs: "**/*.ipynb,**/*.sql"
+description: "Applies to notebooks and SQL files: keep them reproducible and safe."
+---
+
+# Notebooks and SQL files
+
+Notebooks:
+
+- Make them run top to bottom from a clean kernel. Do not rely on cell execution order or hidden state.
+- Set random seeds and print library versions in the first cell.
+- Keep raw inputs read-only; write derived outputs to a separate path.
+- Move reusable logic into importable, tested modules and call it from the notebook.
+- Clear outputs before committing unless the rendered output is the deliverable. Never leave credentials or personal data in outputs.
+- State dtypes when loading files and check row counts, nulls and duplicate keys right after loading.
+
+SQL:
+
+- Use explicit column lists, not `select *`, in committed queries.
+- Use parameters for values; never format user input into SQL text.
+- Qualify columns when joining and alias tables clearly.
+- Check the plan with `EXPLAIN` before relying on a query in production.
+- Run data-changing statements inside a transaction and preview the affected rows with a `select` first.

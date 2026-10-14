@@ -1,0 +1,14 @@
+---
+description: "Add a typed API endpoint with schemas, tests and error handling."
+---
+
+When invoked with a description of an endpoint (method, path and purpose):
+
+1. Read the existing routers, schemas and tests to learn the project's structure, naming and error format.
+2. Define request and response models (Pydantic or the framework's serializers) with explicit field types and constraints.
+3. Implement the handler thinly: validate input, call a service or repository function, map errors to precise status codes. Use dependency injection for the database session and current user.
+4. Check authorisation, including ownership of the object being accessed.
+5. Use parameterised queries or ORM expressions only.
+6. Write pytest tests for the success path and at least these failures: invalid input, not found, not permitted.
+7. Run the formatter, linter, type checker and tests, and report the real results.
+8. List any migration the change needs, but do not apply it without the user's approval.

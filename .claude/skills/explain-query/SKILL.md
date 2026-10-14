@@ -1,0 +1,14 @@
+---
+name: explain-query
+description: "Analyse a SQL query's plan and suggest safe improvements."
+disable-model-invocation: true
+---
+
+When invoked with a SQL query or a path to code that runs one:
+
+1. Restate what the query is meant to return and which tables it touches. Look up the table definitions and existing indexes in the migrations or models.
+2. If the user has given you a database you may query, run `EXPLAIN (ANALYZE, BUFFERS)` only on read-only statements. For statements that modify data, use plain `EXPLAIN` without `ANALYZE`, or ask first. If you have no database access, ask the user to paste the plan.
+3. Read the plan: find sequential scans on large tables, bad row estimates, sorts spilling to disk, nested loops over large inputs, and repeated subqueries.
+4. Propose changes in order of safety: rewrite the query, add a targeted index, update statistics, then schema changes. For each, say the expected effect and the write-cost trade-off.
+5. For index creation on a busy table, suggest `create index concurrently` and note that it cannot run inside a transaction.
+6. Do not apply any change. Present the suggestions and let the user decide.
